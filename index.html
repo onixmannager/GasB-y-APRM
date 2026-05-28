@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>GasTech Pro — Gas B & APRM</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #0f1525;
+    --bg3: #141c30;
+    --card: #111827;
+    --card2: #1a2235;
+    --border: #1e3a5f;
+    --accent: #00c4ff;
+    --accent2: #ff6b35;
+    --accent3: #00ff9f;
+    --warn: #ffb800;
+    --danger: #ff3860;
+    --ok: #00e676;
+    --text: #e8f0ff;
+    --text2: #8899bb;
+    --text3: #4a6080;
+    --mono: 'Share Tech Mono', monospace;
+    --head: 'Rajdhani', sans-serif;
+    --body: 'Exo 2', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── GRID NOISE BACKGROUND ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,196,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,196,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,14,26,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  nav::-webkit-scrollbar { display: none; }
+
+  .nav-logo {
+    font-family: var(--head);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 2px;
+    white-space: nowrap;
+    margin-right: 8px;
+    padding: 14px 0;
+    text-shadow: 0 0 20px rgba(0,196,255,0.5);
+  }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: var(--head);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text2);
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    background: rgba(0,196,255,0.1);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .nav-btn span { font-size: 16px; }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 48px 16px 40px;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(0,196,255,0.06) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(0,196,255,0.12);
+    border: 1px solid rgba(0,196,255,0.3);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: var(--head);
+    font-size: clamp(26px, 7vw, 42px);
+    font-weight: 700;
+    letter-spacing: 3px;
+    line-height: 1.1;
+    color: var(--text);
+    text-transform: uppercase;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+    text-shadow: 0 0 30px rgba(0,196,255,0.4);
+  }
+  .hero p {
+    margin-top: 12px;
+    color: var(--text2);
+    font-size: 14px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ─── SECTION WRAPPER ─── */
+  .section {
+    position: relative;
+    z-index: 1;
+    padding: 32px 16px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .section-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .icon-blue { background: rgba(0,196,255,0.15); border: 1px solid rgba(0,196,255,0.3); }
+  .icon-orange { background: rgba(255,107,53,0.15); border: 1px solid rgba(255,107,53,0.3); }
+  .icon-green { background: rgba(0,255,159,0.15); border: 1px solid rgba(0,255,159,0.3); }
+
+  .section-title {
+    font-family: var(--head);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .section-title small {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text2);
+    letter-spacing: 1px;
+    margin-top: 2px;
+    text-transform: none;
+  }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0.5;
+  }
+  .card:active { transform: scale(0.99); }
+
+  .card-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+  .card-title {
+    font-family: var(--head);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .sym {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--accent);
+    background: rgba(0,196,255,0.1);
+    border: 1px solid rgba(0,196,255,0.25);
+    border-radius: 6px;
+    padding: 0 6px;
+    line-height: 1.6;
+  }
+
+  /* ─── RANGE BARS ─── */
+  .ranges { display: flex; flex-direction: column; gap: 7px; margin-top: 10px; }
+  .range-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+  .range-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text2);
+    min-width: 90px;
+    flex-shrink: 0;
+  }
+  .range-bar {
+    flex: 1;
+    height: 8px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+  .range-ok { background: rgba(0,230,118,0.2); border: 1px solid rgba(0,230,118,0.3); }
+  .range-warn { background: rgba(255,184,0,0.2); border: 1px solid rgba(255,184,0,0.3); }
+  .range-danger { background: rgba(255,56,96,0.2); border: 1px solid rgba(255,56,96,0.3); }
+  .range-fill {
+    position: absolute; inset: 0;
+    border-radius: 4px;
+    animation: fillIn 0.8s ease-out forwards;
+  }
+  @keyframes fillIn { from { width: 0; } }
+  .fill-ok { background: var(--ok); }
+  .fill-warn { background: var(--warn); }
+  .fill-danger { background: var(--danger); }
+  .range-val {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    min-width: 80px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .tag-ok { color: var(--ok); }
+  .tag-warn { color: var(--warn); }
+  .tag-danger { color: var(--danger); }
+
+  /* ─── TEMP CARDS ─── */
+  .temp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .temp-item {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .temp-icon { font-size: 20px; margin-bottom: 4px; }
+  .temp-val {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .temp-lbl {
+    font-size: 10px;
+    color: var(--text2);
+    margin-top: 3px;
+    line-height: 1.3;
+  }
+
+  /* ─── ALERT BOX ─── */
+  .alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .alert-danger { background: rgba(255,56,96,0.1); border: 1px solid rgba(255,56,96,0.3); color: #ff8099; }
+  .alert-warn { background: rgba(255,184,0,0.1); border: 1px solid rgba(255,184,0,0.3); color: #ffd54f; }
+  .alert-ok { background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.3); color: #69f0ae; }
+  .alert-info { background: rgba(0,196,255,0.1); border: 1px solid rgba(0,196,255,0.3); color: #80d8ff; }
+  .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ─── FORMULA CARDS ─── */
+  .formula-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+  .formula-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+    opacity: 0.4;
+  }
+  .formula-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--accent2);
+    margin-bottom: 6px;
+    opacity: 0.8;
+  }
+  .formula-title {
+    font-family: var(--head);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+  .formula-box {
+    background: var(--bg);
+    border: 1px solid rgba(255,107,53,0.2);
+    border-radius: 10px;
+    padding: 14px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent2);
+    text-align: center;
+    letter-spacing: 1px;
+    line-height: 1.8;
+    word-break: break-word;
+  }
+  .formula-box .frac {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+  }
+  .formula-box .frac .num {
+    display: block;
+    border-bottom: 1px solid currentColor;
+    padding: 0 6px 2px;
+  }
+  .formula-box .frac .den {
+    display: block;
+    padding: 2px 6px 0;
+  }
+  .formula-note {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+  .formula-note strong { color: var(--text); }
+  .highlight { color: var(--warn); }
+  .limit-box {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: rgba(255,184,0,0.08);
+    border: 1px solid rgba(255,184,0,0.25);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--warn);
+    font-family: var(--mono);
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+  /* ─── FALLAS SECTION ─── */
+  .falla-grid { display: flex; flex-direction: column; gap: 10px; }
+  .falla-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .falla-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+  }
+  .falla-card.red::before { background: var(--danger); }
+  .falla-card.orange::before { background: var(--accent2); }
+  .falla-card.yellow::before { background: var(--warn); }
+  .falla-card.blue::before { background: var(--accent); }
+  .falla-card.green::before { background: var(--ok); }
+
+  .falla-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+  .falla-name {
+    font-family: var(--head);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .falla-desc { font-size: 13px; color: var(--text2); line-height: 1.5; }
+  .falla-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 6px;
+  }
+  .badge-red { background: rgba(255,56,96,0.15); color: var(--danger); border: 1px solid rgba(255,56,96,0.3); }
+  .badge-orange { background: rgba(255,107,53,0.15); color: var(--accent2); border: 1px solid rgba(255,107,53,0.3); }
+  .badge-blue { background: rgba(0,196,255,0.15); color: var(--accent); border: 1px solid rgba(0,196,255,0.3); }
+  .badge-green { background: rgba(0,230,118,0.15); color: var(--ok); border: 1px solid rgba(0,230,118,0.3); }
+
+  /* ─── SIMBOLOGY TABLE ─── */
+  .sym-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .sym-item {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .sym-key {
+    font-family: var(--mono);
+    font-size: 16px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .sym-val { font-size: 12px; color: var(--text2); line-height: 1.4; }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 4px 0 24px;
+    position: relative;
+  }
+  .divider::after {
+    content: '◆';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg);
+    color: var(--border);
+    font-size: 10px;
+    padding: 0 8px;
+  }
+
+  /* ─── ESQUEMA ELECTRICO ─── */
+  .electric-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 12px;
+  }
+  .electric-title {
+    font-family: var(--head);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    color: var(--accent3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .volt-badge {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(0,255,159,0.1);
+    border: 1px solid rgba(0,255,159,0.3);
+    color: var(--accent3);
+  }
+  .circuit-list { display: flex; flex-direction: column; gap: 6px; }
+  .circuit-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+  }
+  .circuit-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-blue { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+  .dot-orange { background: var(--accent2); box-shadow: 0 0 6px var(--accent2); }
+  .dot-green { background: var(--ok); box-shadow: 0 0 6px var(--ok); }
+
+  /* ─── INFO PILL ─── */
+  .info-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,196,255,0.08);
+    border: 1px solid rgba(0,196,255,0.2);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--text2);
+    margin: 4px 4px 4px 0;
+    font-family: var(--mono);
+  }
+  .info-pill strong { color: var(--accent); font-size: 13px; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 24px 16px 40px;
+    border-top: 1px solid var(--border);
+    color: var(--text3);
+    font-size: 12px;
+    font-family: var(--mono);
+    letter-spacing: 1px;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  .card, .formula-card, .falla-card, .electric-card {
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 360px) {
+    .temp-grid { grid-template-columns: 1fr 1fr; }
+    .sym-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">⚡ GasTech</div>
+  <a href="#ticket" class="nav-btn"><span>🔥</span> Ticket</a>
+  <a href="#formulas" class="nav-btn"><span>📐</span> Fórmulas</a>
+  <a href="#fallas" class="nav-btn"><span>⚠️</span> Fallas</a>
+  <a href="#simbolos" class="nav-btn"><span>📖</span> Simbología</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">ESTUDIOS DE GAS · TIPO B & APRM</div>
+  <h1>Análisis de<br><em>Combustión</em></h1>
+  <p>Referencia técnica completa para técnicos de gas: ticket de combustión, fórmulas APRM y diagnóstico de calderas.</p>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECCIÓN 1: TICKET DE COMBUSTIÓN          -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="ticket">
+  <div class="section-header">
+    <div class="section-icon icon-blue">🔥</div>
+    <div class="section-title">
+      Ticket de Combustión
+      <small>Prueba / Análisis APRM</small>
+    </div>
+  </div>
+
+  <!-- 1. TH -->
+  <div class="card">
+    <div class="card-num">PARÁMETRO 01</div>
+    <div class="card-title"><span class="sym">TH</span> Temperatura de Humos</div>
+    <div class="temp-grid">
+      <div class="temp-item">
+        <div class="temp-icon">🚿</div>
+        <div class="temp-val">&gt;100°C</div>
+        <div class="temp-lbl">Calentador<br>Instantáneo</div>
+      </div>
+      <div class="temp-item">
+        <div class="temp-icon">🏠</div>
+        <div class="temp-val">&gt;80°C</div>
+        <div class="temp-lbl">Caldera<br>Convencional</div>
+      </div>
+      <div class="temp-item" style="border-color:rgba(0,196,255,0.3);">
+        <div class="temp-icon">💧</div>
+        <div class="temp-val" style="color:var(--accent3);">&lt;60°C</div>
+        <div class="temp-lbl">Caldera<br>Condensación</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. LAMBDA -->
+  <div class="card">
+    <div class="card-num">PARÁMETRO 02</div>
+    <div class="card-title"><span class="sym">λ</span> Exceso de Aire — Lambda</div>
+    <div class="ranges">
+      <div class="range-row">
+        <span class="range-label">Óptimo</span>
+        <div class="range-bar range-ok"><div class="range-fill fill-ok" style="width:60%;"></div></div>
+        <span class="range-val tag-ok">1,5 — 3</span>
+      </div>
+    </div>
+    <div class="alert alert-info" style="margin-top:12px;">
+      <span class="alert-icon">ℹ️</span>
+      <span>Lambda indica la relación entre el aire real usado y el aire teórico necesario para la combustión perfecta. <strong style="color:var(--accent);">λ = 1</strong> sería combustión estequiométrica ideal.</span>
+    </div>
+  </div>
+
+  <!-- 3. CO2 -->
+  <div class="card">
+    <div class="card-num">PARÁMETRO 03</div>
+    <div class="card-title"><span class="sym">CO₂</span> Dióxido de Carbono</div>
+    <div class="ranges">
+      <div class="range-row">
+        <span class="range-label">Máximo</span>
+        <div class="range-bar range-ok"><div class="range-fill fill-ok" style="width:100%;"></div></div>
+        <span class="range-val tag-ok">≤ 11,9 %</span>
+      </div>
+    </div>
+    <div class="alert alert-warn" style="margin-top:10px;">
+      <span class="alert-icon">⚠️</span>
+      <span>Por encima del <strong>11,9 %</strong> se indica mezcla demasiado rica — combustión incompleta. Revisar regulación.</span>
+    </div>
+  </div>
+
+  <!-- 4. RENDIMIENTO -->
+  <div class="card">
+    <div class="card-num">PARÁMETRO 04</div>
+    <div class="card-title"><span class="sym">Eya</span> Rendimiento</div>
+    <p style="font-size:13px; color:var(--text2); line-height:1.6;">
+      Eficiencia de la combustión <strong style="color:var(--text);">sin contar los inquemados</strong>. Representa las pérdidas de calor en los gases de combustión que se van por el conducto de humos, sin incluir pérdidas por radiación ni convección del cuerpo del aparato.
+    </p>
+    <div class="alert alert-ok" style="margin-top:10px;">
+      <span class="alert-icon">✅</span>
+      <span>A mayor rendimiento, mayor aprovechamiento del calor generado. En condensación puede superar el 100 % en base al PCI.</span>
+    </div>
+  </div>
+
+  <!-- 5. CO -->
+  <div class="card">
+    <div class="card-num">PARÁMETRO 05</div>
+    <div class="card-title"><span class="sym">CO</span> Monóxido — No Diluido / Corregido</div>
+    <div class="ranges">
+      <div class="range-row">
+        <span class="range-label">0 – 500 ppm</span>
+        <div class="range-bar range-ok"><div class="range-fill fill-ok" style="width:100%;"></div></div>
+        <span class="range-val tag-ok">✅ Correcto</span>
+      </div>
+      <div class="range-row">
+        <span class="range-label">500 – 1000 ppm</span>
+        <div class="range-bar range-warn"><div class="range-fill fill-warn" style="width:100%;"></div></div>
+        <span class="range-val tag-warn">⚠️ Deficiente</span>
+      </div>
+      <div class="range-row">
+        <span class="range-label">&gt; 1000 ppm</span>
+        <div class="range-bar range-danger"><div class="range-fill fill-danger" style="width:100%;"></div></div>
+        <span class="range-val tag-danger">🚫 No Higiénico</span>
+      </div>
+    </div>
+    <div class="alert alert-danger" style="margin-top:12px;">
+      <span class="alert-icon">🚨</span>
+      <span><strong>NO SE PONDRÁ EN MARCHA ningún aparato</strong> con CO no diluido por encima de <strong>500 ppm</strong>.</span>
+    </div>
+  </div>
+
+  <!-- 6. TA -->
+  <div class="card">
+    <div class="card-num">PARÁMETRO 06</div>
+    <div class="card-title"><span class="sym">TA</span> Temperatura Ambiente</div>
+    <p style="font-size:13px; color:var(--text2); line-height:1.6; margin-bottom:10px;">
+      A tener en cuenta <strong style="color:var(--text);">únicamente en aparatos Tipo B</strong>. Estos aparatos toman el aire de combustión del propio local donde están instalados (sin conducto de entrada de aire al exterior), por lo que la TA afecta al riesgo de <strong style="color:var(--warn);">revoco</strong> (retorno de los humos al local).
+    </p>
+    <div class="alert alert-info">
+      <span class="alert-icon">🏠</span>
+      <span><strong style="color:var(--accent);">Aparatos Tipo B:</strong> Calentadores de gas de tiro natural (chimenea), calderas murales con evacuación por chimenea convencional. Toman aire del local y evacuan humos por chimenea compartida o individual.</span>
+    </div>
+  </div>
+
+  <!-- 7. TIRO + O2 + CO AMBIENTE -->
+  <div class="card">
+    <div class="card-num">PARÁMETRO 07</div>
+    <div class="card-title"><span class="sym">↕</span> Tiro, O₂ y CO Ambiente</div>
+
+    <div style="margin-bottom:14px;">
+      <div style="font-size:12px; color:var(--accent); font-family:var(--mono); letter-spacing:1px; margin-bottom:8px;">TIRO — APARATOS TIPO B</div>
+      <div class="alert alert-info">
+        <span class="alert-icon">📉</span>
+        <span>En aparatos Tipo B el tiro debe ser <strong style="color:var(--accent);">SIEMPRE NEGATIVO</strong> (depresión). Si el tiro es positivo indica posible revoco de humos al local.</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <div style="font-size:12px; color:var(--accent); font-family:var(--mono); letter-spacing:1px; margin-bottom:8px;">O₂ — OXÍGENO</div>
+      <div class="ranges">
+        <div class="range-row">
+          <span class="range-label">Correcto</span>
+          <div class="range-bar range-ok"><div class="range-fill fill-ok" style="width:100%;"></div></div>
+          <span class="range-val tag-ok">5 – 13 %</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:12px; color:var(--accent); font-family:var(--mono); letter-spacing:1px; margin-bottom:8px;">CO AMBIENTE</div>
+      <div class="ranges">
+        <div class="range-row">
+          <span class="range-label">0 – 15 ppm</span>
+          <div class="range-bar range-ok"><div class="range-fill fill-ok" style="width:100%;"></div></div>
+          <span class="range-val tag-ok">✅ Correcto</span>
+        </div>
+        <div class="range-row">
+          <span class="range-label">15 – 25 ppm</span>
+          <div class="range-bar range-warn"><div class="range-fill fill-warn" style="width:100%;"></div></div>
+          <span class="range-val tag-warn">⚠️ Secundario</span>
+        </div>
+        <div class="range-row">
+          <span class="range-label">&gt; 25 ppm</span>
+          <div class="range-bar range-danger"><div class="range-fill fill-danger" style="width:100%;"></div></div>
+          <span class="range-val tag-danger">🚨 Principal</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /section ticket -->
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECCIÓN 2: FÓRMULAS APRM DESAJUSTE       -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="formulas">
+  <hr class="divider">
+  <div class="section-header">
+    <div class="section-icon icon-orange">📐</div>
+    <div class="section-title">
+      Fórmulas APRM
+      <small>Cálculo de Desajuste de Aparato</small>
+    </div>
+  </div>
+
+  <!-- F1 Rendimiento teórico -->
+  <div class="formula-card">
+    <div class="formula-label">FÓRMULA 01</div>
+    <div class="formula-title">Rendimiento Teórico</div>
+    <div class="formula-box">
+      <span class="frac">
+        <span class="num">Pn</span>
+        <span class="den">Qn</span>
+      </span>
+      <span style="margin-left:12px; color:var(--text2); font-size:11px;">(datos de placa de características)</span>
+    </div>
+    <div class="formula-note">
+      <strong>Pn</strong> = Potencia nominal del aparato (kW)<br>
+      <strong>Qn</strong> = Caudal nominal de gas (m³/h o kcal/h según aparato)<br>
+      Ambos datos se obtienen de la <strong>placa de características</strong> del equipo.
+    </div>
+  </div>
+
+  <!-- F2 Salto térmico / AT -->
+  <div class="formula-card">
+    <div class="formula-label">FÓRMULA 02</div>
+    <div class="formula-title">Salto Térmico / Caudalímetro — Qn Real (△T)</div>
+    <div class="formula-box">
+      <span class="frac">
+        <span class="num">△T × 60 × Q<sub>placa</sub></span>
+        <span class="den">860</span>
+      </span>
+    </div>
+    <div class="formula-note">
+      <strong>△T</strong> (Delta T / AT) = Salto térmico = Temperatura salida − Temperatura entrada (°C)<br>
+      <strong>Q placa</strong> = Caudal de agua nominal indicado en placa (l/min)<br>
+      <strong>860</strong> = Factor de conversión kcal/kWh<br>
+      <em style="color:var(--text3);">El símbolo △ es la letra griega Delta (triángulo), no una A.</em>
+    </div>
+  </div>
+
+  <!-- F3 Desajuste por salto térmico -->
+  <div class="formula-card">
+    <div class="formula-label">FÓRMULA 03</div>
+    <div class="formula-title">Desajuste por Salto Térmico / Caudalímetro</div>
+    <div class="formula-box">
+      <span class="frac">
+        <span class="num">△T real − Pn placa</span>
+        <span class="den">Pn placa</span>
+      </span>
+      × 100
+    </div>
+    <div class="formula-note">
+      Resultado en <strong>%</strong>. Compara la potencia real medida (por △T) frente a la potencia nominal de placa.<br>
+      <strong>△T real</strong> = Qn real obtenido con la fórmula 02
+    </div>
+    <div class="limit-box">⚡ LÍMITE DE DESAJUSTE: −10 % mínimo · +10 % máximo</div>
+  </div>
+
+  <!-- F4 Medida de contador -->
+  <div class="formula-card">
+    <div class="formula-label">FÓRMULA 04</div>
+    <div class="formula-title">Medida de Contador — Pn Real</div>
+    <div class="formula-box">
+      <span class="frac">
+        <span class="num">(L. Final − L. Inicial) × 60 × 10,83</span>
+        <span class="den">t (min)</span>
+      </span>
+    </div>
+    <div class="formula-note">
+      <strong>L. Final − L. Inicial</strong> = Diferencia de lectura en el contador de gas (m³)<br>
+      <strong>10,83</strong> = Hi del gas natural (kWh/m³ — poder calorífico inferior)<br>
+      <strong>t</strong> = Tiempo de medición en minutos<br>
+      <strong>60</strong> = Factor para expresar el resultado por hora
+    </div>
+  </div>
+
+  <!-- F5 Desajuste por contador -->
+  <div class="formula-card">
+    <div class="formula-label">FÓRMULA 05</div>
+    <div class="formula-title">Desajuste por Contador</div>
+    <div class="formula-box">
+      <span class="frac">
+        <span class="num">Qn real (contador) − Qn placa</span>
+        <span class="den">Qn placa</span>
+      </span>
+      × 100
+    </div>
+    <div class="formula-note">
+      <strong>Qn real (contador)</strong> = Resultado de la fórmula 04<br>
+      <strong>Qn placa</strong> = Potencia nominal de la placa del aparato<br>
+      Resultado en <strong>%</strong>. Refleja si el aparato consume más o menos gas del que debería.
+    </div>
+    <div class="limit-box">⚡ LÍMITE DE DESAJUSTE: −10 % mínimo · +10 % máximo</div>
+  </div>
+
+  <!-- F6 Rendimiento real -->
+  <div class="formula-card">
+    <div class="formula-label">FÓRMULA 06</div>
+    <div class="formula-title">Rendimiento Real</div>
+    <div class="formula-box">
+      <span class="frac">
+        <span class="num">Salto térmico (△T)</span>
+        <span class="den">Medida de contador</span>
+      </span>
+      × 100
+    </div>
+    <div class="formula-note">
+      Expresado en <strong>%</strong>. Relaciona la energía útil obtenida (salto térmico) con la energía real consumida (medida en el contador).<br>
+      <em style="color:var(--text3);">Es el rendimiento efectivo del aparato en las condiciones reales de trabajo, no el nominal de placa.</em>
+    </div>
+  </div>
+
+</div><!-- /section formulas -->
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECCIÓN 3: FALLAS DE CALDERAS             -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="fallas">
+  <hr class="divider">
+  <div class="section-header">
+    <div class="section-icon icon-green">⚠️</div>
+    <div class="section-title">
+      Fallas de Calderas
+      <small>Diagnóstico y Componentes</small>
+    </div>
+  </div>
+
+  <!-- Subsección: Sondas / Sensores -->
+  <div style="font-size:11px; color:var(--text3); font-family:var(--mono); letter-spacing:2px; margin-bottom:10px; text-transform:uppercase;">Sondas y Sensores</div>
+  <div class="falla-grid" style="margin-bottom:20px;">
+
+    <div class="falla-card blue">
+      <div class="falla-icon">🌡️</div>
+      <div>
+        <div class="falla-name">Sonda NTC / CTN</div>
+        <div class="falla-desc">Sensor de temperatura con <strong style="color:var(--text);">Coeficiente de Temperatura Negativo</strong>: su resistencia eléctrica <em>disminuye</em> cuando la temperatura sube. Usada para medir temperatura del agua en caldera.</div>
+        <span class="falla-badge badge-blue">NTC = Coef. Temp. Negativo</span>
+      </div>
+    </div>
+
+    <div class="falla-card blue">
+      <div class="falla-icon">🌡️</div>
+      <div>
+        <div class="falla-name">Sonda PTC</div>
+        <div class="falla-desc">Sensor de temperatura con <strong style="color:var(--text);">Coeficiente de Temperatura Positivo</strong>: su resistencia eléctrica <em>aumenta</em> cuando la temperatura sube.</div>
+        <span class="falla-badge badge-blue">PTC = Coef. Temp. Positivo</span>
+      </div>
+    </div>
+
+    <div class="falla-card red">
+      <div class="falla-icon">🔴</div>
+      <div>
+        <div class="falla-name">Fallo F8 — Circuito Sonda CTN</div>
+        <div class="falla-desc">Error en el circuito de la sonda NTC/CTN. Puede indicar sonda en cortocircuito, circuito abierto o falta de señal. Causa más frecuente: <strong style="color:var(--text);">falta de gas o de agua</strong> en el circuito.</div>
+        <span class="falla-badge badge-red">CÓDIGO ERROR F8</span>
+      </div>
+    </div>
+
+    <div class="falla-card orange">
+      <div class="falla-icon">🔥</div>
+      <div>
+        <div class="falla-name">Sonda de Ionización</div>
+        <div class="falla-desc">Detecta la presencia de llama mediante la conductividad eléctrica del plasma de combustión. Si no detecta llama, la caldera entra en <strong style="color:var(--text);">bloqueo por ausencia de llama</strong>.</div>
+        <span class="falla-badge badge-orange">AUSENCIA DE LLAMA → BLOQUEO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subsección: Elementos de Seguridad -->
+  <div style="font-size:11px; color:var(--text3); font-family:var(--mono); letter-spacing:2px; margin-bottom:10px; text-transform:uppercase;">Elementos de Seguridad</div>
+  <div class="falla-grid" style="margin-bottom:20px;">
+
+    <div class="falla-card yellow">
+      <div class="falla-icon">💨</div>
+      <div>
+        <div class="falla-name">Clixon de Humos (Presostato de Tiro)</div>
+        <div class="falla-desc">Detecta la presión/depresión en el conducto de humos. Si la presión no es correcta, indica <strong style="color:var(--text);">falta de tiro</strong>. La caldera entra en bloqueo para evitar revoco de humos al local.</div>
+        <span class="falla-badge badge-orange">CAUSA: FALTA DE TIRO</span>
+      </div>
+    </div>
+
+    <div class="falla-card red">
+      <div class="falla-icon">🔥</div>
+      <div>
+        <div class="falla-name">Clixon de Temperatura (Termostato Límite)</div>
+        <div class="falla-desc">Seguridad térmica que corta el quemador cuando la caldera alcanza una temperatura excesiva. Indica <strong style="color:var(--text);">sobrecalentamiento</strong>. Puede deberse a falta de circulación, cal o obstrucción en el circuito.</div>
+        <span class="falla-badge badge-red">CAUSA: SOBRECALENTAMIENTO</span>
+      </div>
+    </div>
+
+    <div class="falla-card orange">
+      <div class="falla-icon">💧</div>
+      <div>
+        <div class="falla-name">Presostato de Presión (3ª Presostato)</div>
+        <div class="falla-desc">Controla que la presión del agua del circuito de calefacción sea la correcta. Si actúa, indica <strong style="color:var(--text);">falta de agua o baja presión</strong>. Revisar el manómetro y rellenar el circuito.</div>
+        <span class="falla-badge badge-orange">CAUSA: FALTA DE AGUA / PRESIÓN</span>
+      </div>
+    </div>
+
+    <div class="falla-card red">
+      <div class="falla-icon">🔴</div>
+      <div>
+        <div class="falla-name">Válvula de Seguridad</div>
+        <div class="falla-desc">Se abre automáticamente para liberar presión cuando el circuito supera los <strong style="color:var(--text);">3 bar de presión máxima</strong>. Si actúa frecuentemente: revisar vaso de expansión o circuito cerrado sin escape.</div>
+        <span class="falla-badge badge-red">PRESIÓN MÁXIMA: 3 BAR</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Subsección: Componentes Hidráulicos -->
+  <div style="font-size:11px; color:var(--text3); font-family:var(--mono); letter-spacing:2px; margin-bottom:10px; text-transform:uppercase;">Componentes Hidráulicos y de Control</div>
+  <div class="falla-grid" style="margin-bottom:20px;">
+
+    <div class="falla-card green">
+      <div class="falla-icon">🫧</div>
+      <div>
+        <div class="falla-name">Vaso de Expansión</div>
+        <div class="falla-desc">Absorbe el incremento de volumen del agua cuando se dilata por el calor, evitando subidas bruscas de presión en el circuito cerrado de calefacción. Si está dañado, actúa la válvula de seguridad con frecuencia.</div>
+        <span class="falla-badge badge-green">ABSORBE EXPANSIÓN TÉRMICA</span>
+      </div>
+    </div>
+
+    <div class="falla-card blue">
+      <div class="falla-icon">🔲</div>
+      <div>
+        <div class="falla-name">Intercambiador de Placas (ACS)</div>
+        <div class="falla-desc">Transfiere calor entre el circuito de calefacción y el agua sanitaria sin mezclarlos. Para detectar obstrucción: <strong style="color:var(--text);">tocar la parte delantera</strong> — si está fría estando la caldera en demanda ACS, está <strong style="color:var(--warn);">entaponada</strong>.</div>
+        <span class="falla-badge badge-blue">FRÍO → ENTAPONADO</span>
+      </div>
+    </div>
+
+    <div class="falla-card blue">
+      <div class="falla-icon">🔄</div>
+      <div>
+        <div class="falla-name">Bomba de Circulación</div>
+        <div class="falla-desc">Hace circular el agua por el circuito de calefacción. Siempre se ubica en el <strong style="color:var(--text);">retorno</strong> (agua fría que vuelve de los radiadores). Garantiza el caudal necesario para el correcto funcionamiento.</div>
+        <span class="falla-badge badge-blue">UBICACIÓN: RETORNO</span>
+      </div>
+    </div>
+
+    <div class="falla-card blue">
+      <div class="falla-icon">🚰</div>
+      <div>
+        <div class="falla-name">Fluxostato (Detector de Caudal)</div>
+        <div class="falla-desc">Detecta el paso de agua fría por la entrada de ACS. Ubicado en la <strong style="color:var(--text);">entrada de agua fría</strong>. Activa o desactiva la válvula de 3 vías según la demanda de agua caliente sanitaria.</div>
+        <span class="falla-badge badge-blue">UBICACIÓN: ENTRADA AGUA FRÍA</span>
+      </div>
+    </div>
+
+    <div class="falla-card orange">
+      <div class="falla-icon">🔀</div>
+      <div>
+        <div class="falla-name">Válvula de 3 Vías</div>
+        <div class="falla-desc">Desvía el agua caliente entre el circuito de calefacción y el intercambiador de ACS. <strong style="color:var(--text);">En sistemas mixtos, el ACS tiene prioridad sobre la calefacción</strong>: cuando hay demanda ACS, la calefacción se interrumpe.</div>
+        <span class="falla-badge badge-orange">ACS PRIORITARIO SOBRE CALEFACCIÓN</span>
+      </div>
+    </div>
+
+    <div class="falla-card green">
+      <div class="falla-icon">🌡️</div>
+      <div>
+        <div class="falla-name">Termostato Ambiente (TA)</div>
+        <div class="falla-desc">Detecta la demanda de calefacción del local. Se conecta al circuito principal mediante la conexión <strong style="color:var(--text);">TA (Termostato Ambiente)</strong>. Cuando alcanza la temperatura programada, corta la señal a la caldera y para la calefacción.</div>
+        <span class="falla-badge badge-green">CONEXIÓN TA EN CIRCUITO PRINCIPAL</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Esquemas eléctricos -->
+  <div style="font-size:11px; color:var(--text3); font-family:var(--mono); letter-spacing:2px; margin-bottom:10px; text-transform:uppercase;">Esquemas Eléctricos de Caldera</div>
+
+  <div class="electric-card">
+    <div class="electric-title">🔌 Tensiones de Trabajo <span class="volt-badge">12V</span> <span class="volt-badge">24V</span> <span class="volt-badge">230V</span></div>
+    <div class="circuit-list">
+      <div class="circuit-item">
+        <div class="circuit-dot dot-green"></div>
+        <span><strong>12V DC</strong> — Circuitos de control de bajo consumo: termostatos, sondas NTC, pilotos de señalización. Corriente continua.</span>
+      </div>
+      <div class="circuit-item">
+        <div class="circuit-dot dot-blue"></div>
+        <span><strong>24V AC/DC</strong> — Electroválvulas de gas, circuitos de seguridad, módulos de encendido, sonda de ionización en muchos modelos europeos.</span>
+      </div>
+      <div class="circuit-item">
+        <div class="circuit-dot dot-orange"></div>
+        <span><strong>230V AC</strong> — Alimentación principal de la caldera: bomba de circulación, válvula de 3 vías, ventilador (en estancos), transformador interno.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="electric-card">
+    <div class="electric-title">📍 Esquema de Posición en el Circuito</div>
+    <div class="circuit-list">
+      <div class="circuit-item">
+        <div class="circuit-dot dot-orange"></div>
+        <span><strong>IMPULSIÓN</strong> → Agua caliente sale del intercambiador → radiadores</span>
+      </div>
+      <div class="circuit-item">
+        <div class="circuit-dot dot-blue"></div>
+        <span><strong>RETORNO</strong> → Bomba de circulación + Vaso de expansión</span>
+      </div>
+      <div class="circuit-item">
+        <div class="circuit-dot dot-blue"></div>
+        <span><strong>ENTRADA ACS</strong> → Fluxostato (detector de caudal)</span>
+      </div>
+      <div class="circuit-item">
+        <div class="circuit-dot dot-green"></div>
+        <span><strong>CIRCUITO PRINCIPAL</strong> → Conexión TA (Termostato Ambiente)</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /section fallas -->
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECCIÓN 4: SIMBOLOGÍA                     -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section" id="simbolos">
+  <hr class="divider">
+  <div class="section-header">
+    <div class="section-icon icon-blue">📖</div>
+    <div class="section-title">
+      Simbología Técnica
+      <small>Símbolos y su significado en lenguaje claro</small>
+    </div>
+  </div>
+
+  <div class="sym-grid">
+    <div class="sym-item">
+      <div class="sym-key">TH</div>
+      <div class="sym-val">Temperatura de Humos — gases salida quemador</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">TA</div>
+      <div class="sym-val">Temperatura Ambiente del local de instalación</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">△T</div>
+      <div class="sym-val">Delta T / Salto Térmico — diferencia Tª entrada/salida agua</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">λ</div>
+      <div class="sym-val">Lambda — Exceso de aire en la combustión</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">Eya</div>
+      <div class="sym-val">Rendimiento de combustión (%)</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">CO</div>
+      <div class="sym-val">Monóxido de Carbono — gas tóxico de combustión incompleta</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">CO₂</div>
+      <div class="sym-val">Dióxido de Carbono — indica riqueza de la mezcla</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">O₂</div>
+      <div class="sym-val">Oxígeno — indica exceso de aire en combustión</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">Pn</div>
+      <div class="sym-val">Potencia nominal — dato de placa del aparato (kW)</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">Qn</div>
+      <div class="sym-val">Caudal nominal — consumo de gas en placa (m³/h)</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">Hi</div>
+      <div class="sym-val">Poder Calorífico Inferior del gas (10,83 kWh/m³)</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">ppm</div>
+      <div class="sym-val">Partes Por Millón — unidad de concentración de CO</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">NTC</div>
+      <div class="sym-val">Coeficiente Temperatura Negativo — sonda de temperatura</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">PTC</div>
+      <div class="sym-val">Coeficiente Temperatura Positivo — sonda de temperatura</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">ACS</div>
+      <div class="sym-val">Agua Caliente Sanitaria — circuito de agua de consumo</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">bar</div>
+      <div class="sym-val">Bar — unidad de presión. 1 bar ≈ 10 m columna de agua</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">Tipo B</div>
+      <div class="sym-val">Aparato que toma aire del local y evacúa humos al exterior</div>
+    </div>
+    <div class="sym-item">
+      <div class="sym-key">Tipo C</div>
+      <div class="sym-val">Aparato estanco — toma aire y evacúa humos al exterior directamente</div>
+    </div>
+  </div>
+
+  <div class="alert alert-info" style="margin-top:20px;">
+    <span class="alert-icon">💡</span>
+    <span>Recuerda: el símbolo <strong style="color:var(--accent);">△</strong> (Delta) representa <em>diferencia</em> o <em>variación</em>. En combustión, <strong>△T</strong> es siempre la diferencia de temperatura entre salida y entrada del agua.</span>
+  </div>
+
+</div><!-- /section simbolos -->
+
+<footer>
+  ⚡ GasTech Pro · Estudios de Gas Tipo B & APRM · Referencia Técnica
+</footer>
+
+<script>
+  // Highlight active nav on scroll
+  const sections = document.querySelectorAll('.section[id]');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navBtns.forEach(b => b.classList.remove('active'));
+        const active = document.querySelector(`.nav-btn[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
