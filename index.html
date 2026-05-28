@@ -62,38 +62,25 @@
     background: rgba(10,14,26,0.95);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
-    padding: 0 16px;
+    padding: 0 8px;
     display: flex;
     align-items: center;
-    gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-  nav::-webkit-scrollbar { display: none; }
-
-  .nav-logo {
-    font-family: var(--head);
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 2px;
-    white-space: nowrap;
-    margin-right: 8px;
-    padding: 14px 0;
-    text-shadow: 0 0 20px rgba(0,196,255,0.5);
+    gap: 4px;
   }
 
   .nav-btn {
+    flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 5px;
-    padding: 6px 12px;
+    justify-content: center;
+    gap: 2px;
+    padding: 10px 4px;
     border-radius: 6px;
     font-family: var(--head);
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     white-space: nowrap;
     cursor: pointer;
     border: 1px solid transparent;
@@ -101,13 +88,15 @@
     color: var(--text2);
     transition: all 0.2s;
     text-decoration: none;
+    text-align: center;
+    line-height: 1.2;
   }
   .nav-btn:hover, .nav-btn.active {
     background: rgba(0,196,255,0.1);
     border-color: var(--accent);
     color: var(--accent);
   }
-  .nav-btn span { font-size: 16px; }
+  .nav-btn span { font-size: 18px; line-height: 1; }
 
   /* ─── HERO ─── */
   .hero {
@@ -593,6 +582,11 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
+  /* ─── PAGE VISIBILITY ─── */
+  .section { display: none; }
+  .section.page-active { display: block; }
+  .section .divider { display: none; }
+
   @media (max-width: 360px) {
     .temp-grid { grid-template-columns: 1fr 1fr; }
     .sym-grid { grid-template-columns: 1fr; }
@@ -603,11 +597,10 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">⚡ GasTech</div>
-  <a href="#ticket" class="nav-btn"><span>🔥</span> Ticket</a>
-  <a href="#formulas" class="nav-btn"><span>📐</span> Fórmulas</a>
-  <a href="#fallas" class="nav-btn"><span>⚠️</span> Fallas</a>
-  <a href="#simbolos" class="nav-btn"><span>📖</span> Simbología</a>
+  <a href="#" class="nav-btn active" data-page="ticket"><span>🔥</span>Ticket</a>
+  <a href="#" class="nav-btn" data-page="formulas"><span>📐</span>Fórmulas</a>
+  <a href="#" class="nav-btn" data-page="fallas"><span>⚠️</span>Fallas</a>
+  <a href="#" class="nav-btn" data-page="simbolos"><span>📖</span>Símbolos</a>
 </nav>
 
 <!-- HERO -->
@@ -1211,19 +1204,30 @@
 </footer>
 
 <script>
-  // Highlight active nav on scroll
-  const sections = document.querySelectorAll('.section[id]');
   const navBtns = document.querySelectorAll('.nav-btn');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        navBtns.forEach(b => b.classList.remove('active'));
-        const active = document.querySelector(`.nav-btn[href="#${e.target.id}"]`);
-        if (active) active.classList.add('active');
+  const sections = document.querySelectorAll('.section[id]');
+
+  // Show first page on load
+  document.getElementById('ticket').classList.add('page-active');
+
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const page = btn.dataset.page;
+
+      // Update buttons
+      navBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Show correct section, hide others
+      sections.forEach(s => s.classList.remove('page-active'));
+      const target = document.getElementById(page);
+      if (target) {
+        target.classList.add('page-active');
+        window.scrollTo(0, 0);
       }
     });
-  }, { threshold: 0.3 });
-  sections.forEach(s => observer.observe(s));
+  });
 </script>
 </body>
 </html>
